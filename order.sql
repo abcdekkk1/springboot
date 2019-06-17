@@ -1,4 +1,74 @@
 use milkorder;
+create table User(
+user_id bigint not null,
+user_name varchar(36) not null,
+Encryted_Password varchar(128) not null,
+ENabled bit not null
+);
+alter table User
+add constraint user_pk primary key(user_id);
+alter table user
+add constraint user_uk unique (user_name);
+
+create table role(
+role_id bigint not null,
+role_name varchar(30) not null
+);
+alter table role
+add constraint role_pk primary key(role_id);
+alter table role
+add constraint role_uk unique(role_name);
+create table table_role(
+id bigint not null,
+user_id bigint not null,
+role_id bigint not null
+);
+rename table table_role to user_role;
+alter table user_role
+add constraint user_role_pk primary key(id);
+alter table user_role
+add  constraint user_role_uk unique(user_id, role_id);
+alter table USER_ROLE
+  add constraint USER_ROLE_FK1 foreign key (USER_ID)
+  references USER (USER_ID);
+ 
+alter table USER_ROLE
+  add constraint USER_ROLE_FK2 foreign key (ROLE_ID)
+  references ROLE (ROLE_ID);
+CREATE TABLE Persistent_Logins (
+ 
+    username varchar(64) not null,
+    series varchar(64) not null,
+    token varchar(64) not null,
+    last_used timestamp not null,
+    PRIMARY KEY (series)
+     
+);
+insert into User (USER_ID, USER_NAME, ENCRYTED_PASSWORD, ENABLED)
+values (2, 'dbuser1', '$2a$10$PrI5Gk9L.tSZiW9FXhTS8O8Mz9E97k2FZbFvGFFaSsiTUIl.TCrFu', 1);
+ 
+insert into User (USER_ID, USER_NAME, ENCRYTED_PASSWORD, ENABLED)
+values (1, 'dbadmin1', '$2a$10$PrI5Gk9L.tSZiW9FXhTS8O8Mz9E97k2FZbFvGFFaSsiTUIl.TCrFu', 1);
+ 
+---
+ 
+insert into role (ROLE_ID, ROLE_NAME)
+values (1, 'ROLE_ADMIN');
+ 
+insert into role (ROLE_ID, ROLE_NAME)
+values (2, 'ROLE_USER');
+ 
+---
+ 
+insert into user_role (ID, USER_ID, ROLE_ID)
+values (1, 1, 1);
+ 
+insert into user_role (ID, USER_ID, ROLE_ID)
+values (2, 1, 2);
+ 
+insert into user_role (ID, USER_ID, ROLE_ID)
+values (3, 2, 2);
+
 create table Account(
 user_name varchar(20) not null,
 active BIT not null,
